@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import Feedback from '../models/Feedback';
 import { categorizeFeedback } from '../services/categorizationService';
 
-// POST /api/feedback - public, anonymous submission
 export async function submitFeedback(req: Request, res: Response) {
   try {
     const { message } = req.body;
@@ -29,8 +28,6 @@ export async function submitFeedback(req: Request, res: Response) {
       aiCategorized,
     });
 
-    // Only return minimal confirmation - never echo back anything that could
-    // help correlate this submission to a specific request/session
     return res.status(201).json({
       success: true,
       id: feedback._id,
@@ -42,13 +39,40 @@ export async function submitFeedback(req: Request, res: Response) {
   }
 }
 
-// GET /api/feedback - admin only, list all feedback (auth added in next step)
 export async function getAllFeedback(req: Request, res: Response) {
   try {
     const feedback = await Feedback.find().sort({ createdAt: -1 });
     return res.json(feedback);
   } catch (err) {
     console.error('Error fetching feedback:', err);
+    return res.status(500).json({ error: 'Something went wrong.' });
+  }
+}
+
+const VALID_STATUSES = ['new', 'in-review', 'resolved'];
+
+export async function updateFeedbackStatus(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!VALID_STATUSES.includes(status)) {
+      return res.status(400).json({ error: 'Invalid status value.' });
+    }
+
+    const feedback = await Feedback.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true, runValidators: true }
+    );
+
+    if (!feedback) {
+      return res.status(404).json({ error: 'Feedback not found.' });
+    }
+
+    return res.json({ success: true, feedback });
+  } catch (err) {
+    console.error('Error updating feedback status:', err);
     return res.status(500).json({ error: 'Something went wrong.' });
   }
 }
