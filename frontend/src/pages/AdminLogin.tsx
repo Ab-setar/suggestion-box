@@ -2,8 +2,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/config';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 function AdminLogin() {
+  const { t } = useLanguage();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -38,23 +41,26 @@ function AdminLogin() {
       />
 
       <div className="relative max-w-sm w-full">
-        <div className="flex items-center gap-2 mb-8 justify-center">
-          <span className="w-2 h-2 rounded-full bg-signal" />
-          <span className="font-mono text-xs text-text-muted tracking-wider uppercase">
-            Admin Access
-          </span>
+        <div className="flex items-center justify-between gap-2 mb-8">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-signal" />
+            <span className="font-mono text-xs text-text-muted tracking-wider uppercase">
+              {t.adminAccess}
+            </span>
+          </div>
+          <LanguageSwitcher />
         </div>
 
         <h1 className="font-display text-2xl font-semibold tracking-tight mb-2 text-center">
-          Reviewer Login
+          {t.reviewerLogin}
         </h1>
         <p className="text-text-muted text-sm mb-8 text-center">
-          Ethiopian Statistics Service — Suggestion Box
+          {t.orgSubline}
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4 bg-surface border border-white/5 rounded-xl p-6">
           <div>
-            <label className="font-mono text-xs text-text-muted block mb-1.5">Username</label>
+            <label className="font-mono text-xs text-text-muted block mb-1.5">{t.username}</label>
             <input
               type="text"
               value={username}
@@ -66,7 +72,7 @@ function AdminLogin() {
           </div>
 
           <div>
-            <label className="font-mono text-xs text-text-muted block mb-1.5">Password</label>
+            <label className="font-mono text-xs text-text-muted block mb-1.5">{t.password}</label>
             <input
               type="password"
               value={password}
@@ -84,7 +90,7 @@ function AdminLogin() {
             disabled={loading}
             className="w-full bg-signal text-bg font-medium rounded-lg px-6 py-3 hover:bg-signal/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {loading ? 'Signing in…' : 'Sign in'}
+            {loading ? t.signingIn : t.signIn}
           </button>
         </form>
       </div>

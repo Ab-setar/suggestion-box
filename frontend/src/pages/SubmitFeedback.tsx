@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { api } from '../api/config';
 import { useScrambleText } from '../hooks/useScrambleText';
+import { useLanguage } from '../context/LanguageContext';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 function SubmitFeedback() {
-    const heading = useScrambleText('Employee Suggestion Box', 25);
+    const { t } = useLanguage();
+    const heading = useScrambleText(t.heading, 25);
     const [message, setMessage] = useState('');
     const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
     const [errorMsg, setErrorMsg] = useState('');
@@ -14,7 +17,7 @@ function SubmitFeedback() {
 
         if (message.trim().length < 10) {
             setStatus('error');
-            setErrorMsg('Please enter at least 10 characters.');
+            setErrorMsg(t.errorMinLength);
             return;
         }
 
@@ -28,7 +31,7 @@ function SubmitFeedback() {
             setMessage('');
         } catch (err: any) {
             setStatus('error');
-            setErrorMsg(err.response?.data?.error || 'Something went wrong. Please try again.');
+            setErrorMsg(err.response?.data?.error || t.errorGeneric);
         }
     };
 
@@ -39,18 +42,18 @@ function SubmitFeedback() {
                     <div className="w-12 h-12 rounded-full bg-signal/10 border border-signal/30 flex items-center justify-center mx-auto mb-6">
                         <span className="text-signal font-mono text-sm">OK</span>
                     </div>
-                    <h2 className="font-display text-2xl font-semibold mb-3">Submission received</h2>
+                    <h2 className="font-display text-2xl font-semibold mb-3">{t.successTitle}</h2>
                     <p className="text-text-muted mb-1">
-                        Routed to <span className="font-mono text-signal">{category}</span>
+                        {t.successRouted} <span className="font-mono text-signal">{category}</span>
                     </p>
                     <p className="text-text-muted text-sm mb-8">
-                        No identifying information was stored with this submission.
+                        {t.successPrivacy}
                     </p>
                     <button
                         onClick={() => setStatus('idle')}
                         className="font-mono text-sm px-5 py-2.5 rounded-lg border border-white/10 hover:border-signal/50 hover:bg-surface-hover transition-colors"
                     >
-                        Submit another
+                        {t.submitAnother}
                     </button>
                 </div>
             </div>
@@ -59,7 +62,6 @@ function SubmitFeedback() {
 
     return (
         <div className="min-h-screen bg-bg relative overflow-hidden">
-            {/* Ambient dot-grid background */}
             <div
                 className="absolute inset-0 opacity-[0.15] pointer-events-none"
                 style={{
@@ -69,11 +71,14 @@ function SubmitFeedback() {
             />
 
             <div className="relative max-w-xl mx-auto px-6 py-20">
-                <div className="flex items-center gap-2 mb-8">
-                    <span className="w-2 h-2 rounded-full bg-signal" />
-                    <span className="font-mono text-xs text-text-muted tracking-wider uppercase">
-                        Ethiopian Statistics Service
-                    </span>
+                <div className="flex items-center justify-between gap-2 mb-8">
+                    <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-signal" />
+                        <span className="font-mono text-xs text-text-muted tracking-wider uppercase">
+                            {t.orgLine}
+                        </span>
+                    </div>
+                    <LanguageSwitcher />
                 </div>
 
                 <h1 className="font-display text-4xl font-semibold tracking-tight mb-4 min-h-[3rem]">
@@ -81,12 +86,12 @@ function SubmitFeedback() {
                 </h1>
 
                 <p className="text-text-muted mb-10 leading-relaxed">
-                    Share a concern, an idea, or a problem worth fixing. Nothing here is linked back to you.
+                    {t.intro}
                 </p>
 
                 <div className="flex items-center gap-2 mb-8 px-4 py-3 rounded-lg bg-surface border border-white/5">
                     <span className="font-mono text-xs text-signal">0</span>
-                    <span className="font-mono text-xs text-text-muted">identifiers stored with this submission</span>
+                    <span className="font-mono text-xs text-text-muted">{t.privacyStrip}</span>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -94,7 +99,7 @@ function SubmitFeedback() {
                         <textarea
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
-                            placeholder="What's on your mind?"
+                            placeholder={t.placeholder}
                             rows={7}
                             maxLength={2000}
                             disabled={status === 'submitting'}
@@ -114,12 +119,12 @@ function SubmitFeedback() {
                         disabled={status === 'submitting'}
                         className="w-full bg-signal text-bg font-medium rounded-xl px-6 py-4 hover:bg-signal/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
-                        {status === 'submitting' ? 'Submitting…' : 'Submit feedback'}
+                        {status === 'submitting' ? t.submitting : t.submit}
                     </button>
                 </form>
 
                 <p className="font-mono text-xs text-text-muted/60 mt-8 text-center">
-                    Submissions are categorized automatically and reviewed by administrative staff.
+                    {t.footerNote}
                 </p>
             </div>
         </div>
