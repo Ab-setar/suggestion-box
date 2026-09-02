@@ -28,10 +28,11 @@ export async function submitFeedback(req: Request, res: Response) {
       aiCategorized,
     });
 
-    return res.status(201).json({
+        return res.status(201).json({
       success: true,
       id: feedback._id,
       category: feedback.category,
+      aiCategorized: feedback.aiCategorized,
     });
   } catch (err) {
     console.error('Error submitting feedback:', err);
