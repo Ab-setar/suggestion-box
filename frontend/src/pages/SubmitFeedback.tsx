@@ -90,8 +90,8 @@ function SubmitFeedback() {
         }}
       />
 
-      <div className="relative max-w-xl mx-auto px-6 py-20">
-        <div className="flex items-center justify-between gap-2 mb-6">
+      <div className="relative max-w-xl mx-auto px-5 py-10 sm:px-6 sm:py-20">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-signal" />
             <span className="font-mono text-xs text-text-muted tracking-wider uppercase">
@@ -106,7 +106,7 @@ function SubmitFeedback() {
           <span className="font-mono text-[11px] text-signal tracking-wide">{t.aiBadge}</span>
         </div>
 
-        <h1 className="font-display text-4xl font-semibold tracking-tight mb-4 min-h-[3rem]">
+        <h1 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight mb-4 min-h-[2.5rem] sm:min-h-[3rem] break-words">
           {heading}
         </h1>
 

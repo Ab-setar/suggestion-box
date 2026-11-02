@@ -31,7 +31,7 @@ function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-bg flex items-center justify-center px-6 relative overflow-hidden">
+    <div className="min-h-screen bg-bg flex items-center justify-center px-5 py-10 relative overflow-hidden">
       <div
         className="absolute inset-0 opacity-[0.15] pointer-events-none"
         style={{
@@ -41,7 +41,7 @@ function AdminLogin() {
       />
 
       <div className="relative max-w-sm w-full">
-        <div className="flex items-center justify-between gap-2 mb-8">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-8">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-signal" />
             <span className="font-mono text-xs text-text-muted tracking-wider uppercase">
