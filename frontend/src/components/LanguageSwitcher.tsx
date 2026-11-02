@@ -11,12 +11,17 @@ function LanguageSwitcher() {
   const { language, setLanguage } = useLanguage();
 
   return (
-    <div className="flex gap-1 bg-surface border border-white/10 rounded-lg p-1">
+    <div
+      role="group"
+      aria-label="Language"
+      className="flex shrink-0 gap-1 bg-surface border border-white/10 rounded-lg p-1"
+    >
       {LANGUAGES.map((lang) => (
         <button
           key={lang.code}
           onClick={() => setLanguage(lang.code)}
-          className={`font-mono text-xs px-2.5 py-1 rounded-md transition-colors ${
+          aria-pressed={language === lang.code}
+          className={`font-mono text-xs min-w-[2.5rem] px-3 py-2 sm:px-2.5 sm:py-1 rounded-md transition-colors ${
             language === lang.code
               ? 'bg-signal text-bg'
               : 'text-text-muted hover:text-text'

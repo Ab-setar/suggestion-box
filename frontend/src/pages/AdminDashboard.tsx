@@ -104,7 +104,7 @@ function AdminDashboard() {
   return (
     <div className="min-h-screen bg-bg">
       <header className="border-b border-white/5 sticky top-0 bg-bg/95 backdrop-blur z-10">
-        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-3">
           <div>
             <p className="font-mono text-xs text-text-muted uppercase tracking-wider">
               Ethiopian Statistics Service
@@ -125,12 +125,12 @@ function AdminDashboard() {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 py-8">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         <div className="flex flex-wrap gap-3 mb-6">
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="bg-surface border border-white/10 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:border-signal/50"
+            className="flex-1 sm:flex-none min-w-[9rem] bg-surface border border-white/10 rounded-lg px-3 py-2.5 text-base sm:text-sm font-mono focus:outline-none focus:border-signal/50"
           >
             {categories.map((c) => (
               <option key={c} value={c}>
@@ -142,7 +142,7 @@ function AdminDashboard() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-surface border border-white/10 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:border-signal/50"
+            className="flex-1 sm:flex-none min-w-[9rem] bg-surface border border-white/10 rounded-lg px-3 py-2.5 text-base sm:text-sm font-mono focus:outline-none focus:border-signal/50"
           >
             {statuses.map((s) => (
               <option key={s} value={s}>
@@ -151,7 +151,7 @@ function AdminDashboard() {
             ))}
           </select>
 
-          <div className="ml-auto font-mono text-xs text-text-muted self-center">
+          <div className="w-full sm:w-auto sm:ml-auto font-mono text-xs text-text-muted self-center">
             {filtered.length} submission{filtered.length !== 1 ? 's' : ''}
           </div>
         </div>
@@ -174,7 +174,7 @@ function AdminDashboard() {
           {filtered.map((item) => (
             <div
               key={item._id}
-              className="bg-surface border border-white/5 rounded-xl p-5 hover:border-white/10 transition-colors"
+              className="bg-surface border border-white/5 rounded-xl p-4 sm:p-5 hover:border-white/10 transition-colors"
             >
               <div className="flex flex-wrap items-center gap-2 mb-3">
                 <span
@@ -192,12 +192,12 @@ function AdminDashboard() {
                     keyword fallback
                   </span>
                 )}
-                <span className="font-mono text-xs text-text-muted ml-auto">
+                <span className="font-mono text-xs text-text-muted w-full sm:w-auto sm:ml-auto">
                   {formatDate(item.createdAt)}
                 </span>
               </div>
 
-              <p className="text-text leading-relaxed mb-4">{item.message}</p>
+              <p className="text-text leading-relaxed mb-4 break-words">{item.message}</p>
 
               <div className="flex flex-wrap gap-2">
                 {statuses.slice(1).map((s) => (
@@ -205,7 +205,7 @@ function AdminDashboard() {
                     key={s}
                     onClick={() => handleStatusChange(item._id, s)}
                     disabled={item.status === s}
-                    className={`font-mono text-xs px-3 py-1.5 rounded-lg border transition-colors ${
+                    className={`font-mono text-xs px-3 py-2 sm:py-1.5 rounded-lg border transition-colors ${
                       item.status === s
                         ? 'border-signal/50 text-signal cursor-default'
                         : 'border-white/10 text-text-muted hover:border-white/30 hover:text-text'
